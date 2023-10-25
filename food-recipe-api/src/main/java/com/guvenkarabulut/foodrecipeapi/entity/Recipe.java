@@ -1,78 +1,83 @@
 package com.guvenkarabulut.foodrecipeapi.entity;
 
 import jakarta.persistence.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 
-import java.util.Date;
+import java.time.Instant;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Entity
 @Table(name = "recipe")
 public class Recipe {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
-    private String id;
-    @Column(name = "title")
-    private String title;
+    @Column(name = "id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "recipe_id_seq")
+    private Long id;
+    @Column(name = "name")
+    private String name;
+
     @Column(name = "description")
     private String description;
-    @Column(name = "ingredients")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "recipe")
-    private List<Ingredient> ingredients;
-    @Column(name = "instructions")
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "recipe")
-    private List<Instruction> instructions;
-    @Column(name = "created_at")
-    private Date createdAt;
-    @Column(name = "updated_at")
-    private Date updatedAt;
+
+    @CreatedDate
+    @Column(name = "created_date")
+    private Instant createdDate;
+
+    @LastModifiedDate
+    @Column(name = "last_modified_date")
+    private Instant lastModifiedDate;
+
+    @OneToMany(mappedBy = "recipe", orphanRemoval = true)
+    private List<Ingredient> ingredients = new ArrayList<>();
 
     public Recipe() {
     }
 
-    public Recipe(String id,
-                  String title,
-                  String description,
-                  List<Ingredient> ingredients,
-                  List<Instruction> instructions,
-                  Date createdAt,
-                  Date updatedAt) {
+    public Recipe(Long id, String name, String description, Instant createdDate, Instant lastModifiedDate, List<Ingredient> ingredients) {
         this.id = id;
-        this.title = title;
+        this.name = name;
         this.description = description;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
         this.ingredients = ingredients;
-        this.instructions = instructions;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
-    public Recipe(String title,
-                  String description,
-                  List<Ingredient> ingredients,
-                  List<Instruction> instructions,
-                  Date createdAt,
-                  Date updatedAt) {
-        this.id = "";
-        this.title = title;
+
+    public Recipe(String name, String description, Instant createdDate, Instant lastModifiedDate, List<Ingredient> ingredients) {
+        this.id = null;
+        this.name = name;
         this.description = description;
+        this.createdDate = createdDate;
+        this.lastModifiedDate = lastModifiedDate;
         this.ingredients = ingredients;
-        this.instructions = instructions;
-        this.createdAt = createdAt;
-        this.updatedAt = updatedAt;
     }
 
-    public String getId() {
-        return id;
+
+    public List<Ingredient> getIngredients() {
+        return ingredients;
     }
 
-    public void setId(String id) {
-        this.id = id;
+    public void setIngredients(List<Ingredient> ingredients) {
+        this.ingredients = ingredients;
     }
 
-    public String getTitle() {
-        return title;
+    public Instant getLastModifiedDate() {
+        return lastModifiedDate;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setLastModifiedDate(Instant lastModifiedDate) {
+        this.lastModifiedDate = lastModifiedDate;
+    }
+
+    public Instant getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Instant createdDate) {
+        this.createdDate = createdDate;
     }
 
     public String getDescription() {
@@ -83,35 +88,19 @@ public class Recipe {
         this.description = description;
     }
 
-    public List<Ingredient> getIngredients() {
-        return ingredients;
+    public String getName() {
+        return name;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
-        this.ingredients = ingredients;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public List<Instruction> getInstructions() {
-        return instructions;
+    public Long getId() {
+        return id;
     }
 
-    public void setInstructions(List<Instruction> instructions) {
-        this.instructions = instructions;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
+    public void setId(Long id) {
+        this.id = id;
     }
 }

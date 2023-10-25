@@ -12,24 +12,19 @@ public class Instruction {
     private int step;
     @Column(name = "description")
     private String description;
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
 
     public Instruction() {
     }
 
-    public Instruction(String id, int step, String description, Recipe recipe) {
+    public Instruction(String id, int step, String description) {
         this.id = id;
         this.step = step;
         this.description = description;
-        this.recipe = recipe;
     }
 
-    public Instruction(int step, String description, Recipe recipe) {
+    public Instruction(int step, String description) {
         this.id = "";
         this.step = step;
         this.description = description;
-        this.recipe = recipe;
     }
 }

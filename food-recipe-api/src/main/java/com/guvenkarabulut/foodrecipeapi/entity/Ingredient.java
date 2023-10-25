@@ -8,9 +8,6 @@ public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
-    @ManyToOne
-    @JoinColumn(name = "recipe_id")
-    private Recipe recipe;
     @Column(name = "name")
     private String name;
     @Column(name = "quantity")
@@ -18,19 +15,29 @@ public class Ingredient {
     @Column(name = "unit")
     private String unit;
 
+    @ManyToOne
+    @JoinColumn(name = "recipe_id")
+    private Recipe recipe;
+
+    public Recipe getRecipe() {
+        return recipe;
+    }
+
+    public void setRecipe(Recipe recipe) {
+        this.recipe = recipe;
+    }
+
     public Ingredient() {
     }
-    public Ingredient(String id, Recipe recipe, String name, float quantity, String unit) {
+    public Ingredient(String id, String name, float quantity, String unit) {
         this.id = id;
-        this.recipe = recipe;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
     }
 
-    public Ingredient(Recipe recipe, String name, float quantity, String unit) {
+    public Ingredient(String name, float quantity, String unit) {
         this.id = "";
-        this.recipe = recipe;
         this.name = name;
         this.quantity = quantity;
         this.unit = unit;
@@ -42,14 +49,6 @@ public class Ingredient {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public Recipe getRecipe() {
-        return recipe;
-    }
-
-    public void setRecipe(Recipe recipe) {
-        this.recipe = recipe;
     }
 
     public String getName() {
